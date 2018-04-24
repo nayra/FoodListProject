@@ -4,11 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import app.dkh.interviewapplication.MyApplication;
 import app.dkh.interviewapplication.models.FoodItem;
@@ -20,7 +16,6 @@ import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FoodItemRepository {
 
@@ -35,7 +30,7 @@ public class FoodItemRepository {
     public LiveData<FoodItemsListModel> getFoodItemsList(){
         final MutableLiveData<FoodItemsListModel> data = new MutableLiveData<>();
 
-        if(ConnectivityCheck.isConnected(MyApplication.getContext())) {
+        if (ConnectivityCheck.isConnected(MyApplication.getContext())) {            // if connection exists connect to api and save the result
             ApiConnections.getRetrofit().getFoodItemsMenu().enqueue(new Callback<FoodItemsListModel>() {
                 @Override
                 public void onResponse(Call<FoodItemsListModel> call, Response<FoodItemsListModel> response) {
@@ -46,6 +41,7 @@ public class FoodItemRepository {
                             _realm.copyToRealmOrUpdate(response.body().getItems());
                         });
                     } else {
+                        // get data from data base if nothing returns from api
                         Log.d(TAG, "null response");
                         data.setValue(retrieveDataFromDB());
                     }
@@ -54,10 +50,13 @@ public class FoodItemRepository {
                 @Override
                 public void onFailure(Call<FoodItemsListModel> call, Throwable t) {
                     Log.e(TAG, t.toString());
+                    // get data from data base if failure happened
                     data.setValue(retrieveDataFromDB());
                 }
             });
         }else{
+            // get data from data base if no connection
+
             Log.e(TAG, "No internet connectivity");
             data.setValue(retrieveDataFromDB());
         }

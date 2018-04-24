@@ -1,17 +1,13 @@
 package app.dkh.interviewapplication.views;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import app.dkh.interviewapplication.Constants;
-import app.dkh.interviewapplication.models.FoodItem;
-import app.dkh.interviewapplication.models.FoodItemsListModel;
-import app.dkh.interviewapplication.util.FragmentUtils;
 import app.dkh.interviewapplication.R;
-import app.dkh.interviewapplication.viewmodels.MainActivityViewModel;
+import app.dkh.interviewapplication.models.FoodItem;
+import app.dkh.interviewapplication.util.FragmentUtils;
 
 public class MainActivity extends AppCompatActivity implements MenuListFragment.OnFragmentInteractionListener {
 
@@ -25,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         FragmentUtils.addFragment(R.id.frag_container, this , new MenuListFragment(), MenuListFragment.class.getSimpleName());
     }
 
+    // navigate to details fragment after clicking on recyclerview item
+    // send the selected item
     @Override
     public void onFragmentInteraction(FoodItem foodItem) {
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -34,4 +32,18 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
 
         FragmentUtils.replaceFragment(R.id.frag_container, this , detailsFragment, DetailsFragment.class.getSimpleName());
     }
+
+    // handle back from fragments
+    @Override
+    public void onBackPressed() {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final int backStack = fragmentManager.getBackStackEntryCount();
+
+        if (backStack > 1) {
+            fragmentManager.popBackStack();
+        } else {
+            finish();
+        }
+    }
+
 }
