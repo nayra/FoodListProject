@@ -12,8 +12,5 @@
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
 
-    <include
-        android:id="@+id/error"
-        layout="@layout/error_layout"/>
 
 </LinearLayout>

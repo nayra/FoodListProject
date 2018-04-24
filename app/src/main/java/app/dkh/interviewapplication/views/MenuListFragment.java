@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import app.dkh.interviewapplication.R;
 import app.dkh.interviewapplication.adapters.FoodListRecyclerViewAdapter;
@@ -36,8 +35,6 @@ public class MenuListFragment extends Fragment implements FoodListRecyclerViewAd
     @BindView(R.id.rcv_menu_list)
     RecyclerView menuRecyclerView;
 
-    @BindView(R.id.error)
-    LinearLayout mErrorView;
 
     private MainActivityViewModel _viewModel;
 
@@ -73,13 +70,11 @@ public class MenuListFragment extends Fragment implements FoodListRecyclerViewAd
     private void displayFoodItems(FoodItemsListModel foodItems) {
         if(foodItems != null && foodItems.getItems() != null){
             menuRecyclerView.setVisibility(View.VISIBLE);
-            mErrorView.setVisibility(View.GONE);
             FoodListRecyclerViewAdapter adapter = new FoodListRecyclerViewAdapter(getActivity(), foodItems.getItems(), this);
             menuRecyclerView.setAdapter(adapter);
 
         }else{
             menuRecyclerView.setVisibility(View.GONE);
-            mErrorView.setVisibility(View.VISIBLE);
         }
     }
 
