@@ -101,11 +101,11 @@ public class MenuListFragment extends Fragment implements FoodListRecyclerViewAd
 
     @Override
     public void onFoodClicked(FoodItem foodItem) {
-
+        mListener.onFragmentInteraction(foodItem);
     }
 
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(final int index);
+        void onFragmentInteraction(final FoodItem foodItem);
     }
 }

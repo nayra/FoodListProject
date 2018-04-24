@@ -1,11 +1,14 @@
 package app.dkh.interviewapplication.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class FoodItem extends RealmObject {
+public class FoodItem extends RealmObject implements Parcelable {
     @PrimaryKey
     private int id;
     @SerializedName("name")
@@ -57,4 +60,40 @@ public class FoodItem extends RealmObject {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.photoUrl);
+        dest.writeString(this.description);
+    }
+
+    public FoodItem() {
+    }
+
+    protected FoodItem(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.photoUrl = in.readString();
+        this.description = in.readString();
+    }
+
+    public static final Parcelable.Creator<FoodItem> CREATOR = new Parcelable.Creator<FoodItem>() {
+        @Override
+        public FoodItem createFromParcel(Parcel source) {
+            return new FoodItem(source);
+        }
+
+        @Override
+        public FoodItem[] newArray(int size) {
+            return new FoodItem[size];
+        }
+    };
 }
