@@ -42,17 +42,13 @@ public class FoodListRecyclerViewAdapter extends RecyclerView.Adapter<FoodListRe
         if(foodThumbnailURL != null && !foodThumbnailURL.isEmpty()){
             Picasso.get()
                     .load(foodThumbnailURL)
-                    .resize(100, 100)
+                    .resize(300, 300)
                     .placeholder(R.drawable.ic_place_holder)
                     .error(R.drawable.ic_error_outline_black_24dp)
                     .into(holder.img_thumbnail);
-
-                    /*.resize(holder.receipeThumbnailImageView.getWidth(), holder.receipeThumbnailImageView.getHeight())
-                    .into(holder.receipeThumbnailImageView);*/
         }
 
         holder.txtName.setText(foodItem.getName());
-        holder.txtDescription.setText(foodItem.getDescription());
     }
     @Override
     public int getItemCount() {
@@ -63,8 +59,6 @@ public class FoodListRecyclerViewAdapter extends RecyclerView.Adapter<FoodListRe
         ImageView img_thumbnail;
         @BindView(R.id.tv_name)
         TextView txtName;
-        @BindView(R.id.tv_description)
-        TextView txtDescription;
 
         public FoodListViewHolder(View itemView) {
             super(itemView);
